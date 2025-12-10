@@ -1,0 +1,30 @@
+# Campus Food Backend - Python Dependencies
+
+# FastAPI and server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# MongoDB driver (async)
+motor==3.3.2
+pymongo==4.6.1
+
+# Authentication and security
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+bcrypt==4.1.2
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Email validation
+email-validator==2.1.0.post1
+
+# Pydantic for data validation
+pydantic[email]==2.5.3
+
+# CORS
+python-cors==1.0.0
+
+# Optional: For production deployment
+gunicorn==21.2.0
