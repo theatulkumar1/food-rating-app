@@ -32,13 +32,13 @@ async def connect_to_mongo():
         # Test connection
         await mongodb_client.admin.command('ping')
         database = mongodb_client[DATABASE_NAME]
-        print("✅ MongoDB Connected Successfully")
-        print(f"📊 Database: {DATABASE_NAME}")
+        print(" MongoDB Connected Successfully")
+        print(f" Database: {DATABASE_NAME}")
     except ServerSelectionTimeoutError as e:
-        print(f"❌ MongoDB Connection Error: {e}")
+        print(f" MongoDB Connection Error: {e}")
         raise
     except Exception as e:
-        print(f"❌ Error connecting to MongoDB: {e}")
+        print(f" Error connecting to MongoDB: {e}")
         raise
 
 
@@ -47,7 +47,7 @@ async def close_mongo_connection():
     global mongodb_client
     if mongodb_client:
         mongodb_client.close()
-        print("🛑 MongoDB connection closed")
+        print(" MongoDB connection closed")
 
 
 def get_database():
@@ -64,3 +64,4 @@ COLLECTIONS = {
     "active_users": "active_users",
     "store_registrations": "store_registrations"
 }
+
