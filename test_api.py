@@ -70,7 +70,7 @@ async def test_database_connection():
     
     if reviews_count > 0:
         review = await db.reviews.find_one({})
-        print(f" Sample review: {review.get('rating')}⭐ - {review.get('comment')[:50]}...")
+        print(f" Sample review: {review.get('rating')} - {review.get('comment')[:50]}...")
     print()
     
     # Test orders collection
@@ -215,4 +215,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
