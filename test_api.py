@@ -19,25 +19,25 @@ DATABASE_NAME = os.getenv("DATABASE_NAME", "campus_food")
 async def test_database_connection():
     """Test MongoDB connection"""
     print("==========================================")
-    print("🧪 Campus Food - API Connection Test")
+    print(" Campus Food - API Connection Test")
     print("==========================================\n")
     
     print("[1/8] Testing MongoDB Connection...")
-    print(f"📍 URI: {MONGODB_URI}")
+    print(f" URI: {MONGODB_URI}")
     
     try:
         client = AsyncIOMotorClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
         await client.admin.command('ping')
         db = client[DATABASE_NAME]
-        print("✅ MongoDB connection successful\n")
+        print(" MongoDB connection successful\n")
     except Exception as e:
-        print(f"❌ MongoDB connection failed: {e}")
+        print(f" MongoDB connection failed: {e}")
         return False
     
     # Test collections
     print("[2/8] Checking Collections...")
     collections = await db.list_collection_names()
-    print(f"📦 Found {len(collections)} collection(s):")
+    print(f" Found {len(collections)} collection(s):")
     for col in collections:
         print(f"   - {col}")
     print()
@@ -45,63 +45,63 @@ async def test_database_connection():
     # Test stores collection
     print("[3/8] Testing Stores Collection...")
     stores_count = await db.stores.count_documents({})
-    print(f"✅ Stores collection: {stores_count} document(s)")
+    print(f" Stores collection: {stores_count} document(s)")
     
     if stores_count > 0:
         store = await db.stores.find_one({})
-        print(f"✅ Sample store: {store.get('name')}")
+        print(f" Sample store: {store.get('name')}")
     print()
     
     # Test users collection
     print("[4/8] Testing Users Collection...")
     users_count = await db.users.count_documents({})
-    print(f"✅ Users collection: {users_count} document(s)")
+    print(f" Users collection: {users_count} document(s)")
     
     if users_count > 0:
         admin = await db.users.find_one({"is_admin": True})
         if admin:
-            print(f"✅ Admin user found: {admin.get('username')}")
+            print(f" Admin user found: {admin.get('username')}")
     print()
     
     # Test reviews collection
     print("[5/8] Testing Reviews Collection...")
     reviews_count = await db.reviews.count_documents({})
-    print(f"✅ Reviews collection: {reviews_count} document(s)")
+    print(f" Reviews collection: {reviews_count} document(s)")
     
     if reviews_count > 0:
         review = await db.reviews.find_one({})
-        print(f"✅ Sample review: {review.get('rating')}⭐ - {review.get('comment')[:50]}...")
+        print(f" Sample review: {review.get('rating')}⭐ - {review.get('comment')[:50]}...")
     print()
     
     # Test orders collection
     print("[6/8] Testing Orders Collection...")
     orders_count = await db.orders.count_documents({})
-    print(f"✅ Orders collection: {orders_count} document(s)")
+    print(f" Orders collection: {orders_count} document(s)")
     print()
     
     # Test active_users collection
     print("[7/8] Testing Active Users Collection...")
     active_users_count = await db.active_users.count_documents({})
-    print(f"✅ Active users collection: {active_users_count} document(s)")
+    print(f" Active users collection: {active_users_count} document(s)")
     print()
     
     # Test indexes
     print("[8/8] Checking Indexes...")
     
     stores_indexes = await db.stores.list_indexes().to_list(None)
-    print(f"✅ Stores indexes: {len(stores_indexes)}")
+    print(f" Stores indexes: {len(stores_indexes)}")
     
     reviews_indexes = await db.reviews.list_indexes().to_list(None)
-    print(f"✅ Reviews indexes: {len(reviews_indexes)}")
+    print(f" Reviews indexes: {len(reviews_indexes)}")
     
     print()
     
     # Summary
     print("==========================================")
-    print("✅ ALL TESTS PASSED!")
+    print(" ALL TESTS PASSED!")
     print("==========================================\n")
     
-    print("📊 Summary:")
+    print(" Summary:")
     print(f"   - Database: {DATABASE_NAME}")
     print(f"   - Collections: {len(collections)}")
     print(f"   - Stores: {stores_count}")
@@ -112,15 +112,15 @@ async def test_database_connection():
     print()
     
     if stores_count == 0:
-        print("⚠️  TIP: No data found. Run 'python init_db.py' to populate the database.")
+        print("  TIP: No data found. Run 'python init_db.py' to populate the database.")
         print()
     
-    print("✨ Database is ready!")
+    print(" Database is ready!")
     print()
-    print("🚀 Start the server:")
+    print(" Start the server:")
     print("   uvicorn main:app --reload --port 8000")
     print()
-    print("📖 API Documentation:")
+    print(" API Documentation:")
     print("   http://localhost:8000/docs")
     print()
     
@@ -131,7 +131,7 @@ async def test_database_connection():
 async def test_data_integrity():
     """Test data integrity and relationships"""
     print("==========================================")
-    print("🔍 Testing Data Integrity...")
+    print(" Testing Data Integrity...")
     print("==========================================\n")
     
     client = AsyncIOMotorClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
@@ -145,9 +145,9 @@ async def test_data_integrity():
         menu = store.get("menu", [])
         for item in menu:
             if "id" not in item:
-                print(f"❌ Menu item missing ID in {store.get('name')}: {item.get('name')}")
+                print(f" Menu item missing ID in {store.get('name')}: {item.get('name')}")
             else:
-                print(f"✅ {store.get('name')} - {item.get('name')} has ID: {item.get('id')}")
+                print(f" {store.get('name')} - {item.get('name')} has ID: {item.get('id')}")
     print()
     
     # Test reviews reference valid stores
@@ -159,9 +159,9 @@ async def test_data_integrity():
         store = await db.stores.find_one({"id": store_id})
         
         if store:
-            print(f"✅ Review references valid store: {review.get('store_name')}")
+            print(f" Review references valid store: {review.get('store_name')}")
         else:
-            print(f"❌ Review references invalid store ID: {store_id}")
+            print(f" Review references invalid store ID: {store_id}")
     print()
     
     # Test password hashing
@@ -171,20 +171,20 @@ async def test_data_integrity():
     if admin:
         password = admin.get("hashed_password", "")
         if password.startswith("$2b$") or password.startswith("$2a$"):
-            print(f"✅ Admin password is properly hashed")
+            print(f" Admin password is properly hashed")
         else:
-            print(f"❌ Admin password is not hashed!")
+            print(f" Admin password is not hashed!")
     
     stores = await db.stores.find().to_list(3)
     for store in stores[:3]:
         password = store.get("hashed_password", "")
         if password.startswith("$2b$") or password.startswith("$2a$"):
-            print(f"✅ {store.get('name')} password is properly hashed")
+            print(f" {store.get('name')} password is properly hashed")
         else:
-            print(f"❌ {store.get('name')} password is not hashed!")
+            print(f" {store.get('name')} password is not hashed!")
     
     print()
-    print("✅ Data integrity check complete!")
+    print(" Data integrity check complete!")
     print()
     
     client.close()
@@ -196,7 +196,7 @@ async def main():
     success = await test_database_connection()
     
     if not success:
-        print("❌ Database connection failed. Please check:")
+        print(" Database connection failed. Please check:")
         print("   1. MongoDB is running (net start MongoDB)")
         print("   2. .env file has correct MONGODB_URI")
         print("   3. MongoDB URI is accessible")
@@ -206,12 +206,13 @@ async def main():
     await test_data_integrity()
     
     print("==========================================")
-    print("✅ ALL API CONNECTION TESTS PASSED!")
+    print(" ALL API CONNECTION TESTS PASSED!")
     print("==========================================")
     print()
-    print("🎉 Your backend is ready to use!")
+    print(" Your backend is ready to use!")
     print()
 
 
 if __name__ == "__main__":
     asyncio.run(main())
+
