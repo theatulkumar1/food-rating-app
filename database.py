@@ -65,3 +65,4 @@ COLLECTIONS = {
     "store_registrations": "store_registrations"
 }
 
+
